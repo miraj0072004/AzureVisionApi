@@ -3,8 +3,19 @@ import { config } from './config';
 import * as fileHelpers from './fileHelpers';
 import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 
-analyzeImage('./dog.jpg', new AnalyzeParameters({
-    visualFeatures: ['Tags','Categories']
+//analyze Tags,Categories
+// analyzeImage('./dog.jpg', new AnalyzeParameters({
+//     visualFeatures: ['Tags','Categories']
+// }));
+
+//analyze Color
+// analyzeImage('./famousperson.jpg', new AnalyzeParameters({
+//     visualFeatures: ['Color']
+// }));
+
+//analyze clip art vs line art
+analyzeImage('./dog_clipart.jpg', new AnalyzeParameters({
+    visualFeatures: ['ImageType']
 }));
 
 function analyzeImage(fileName: string, params: AnalyzeParameters) {
