@@ -1,5 +1,6 @@
 import * as request from 'request';
 import { config } from './config';
+import * as fs from 'fs';
 import * as fileHelpers from './fileHelpers';
 import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 
@@ -19,9 +20,30 @@ import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 // }));
 
 //analyze adult picture
-analyzeImage('./racy.jpg', new AnalyzeParameters({
-    visualFeatures: ['Adult']
-}));
+// analyzeImage('./racy.jpg', new AnalyzeParameters({
+//     visualFeatures: ['Adult']
+// }));
+
+//generate Thumbnails
+generateThumbnail('./dog.jpg');
+
+
+function generateThumbnail(fileName: string) {
+    const requestOptions: request.CoreOptions = {
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": config.vision.key1
+        },
+        body: fileHelpers.readImage(__dirname + '/' + fileName)
+    };
+
+    let uri = config.vision.endPoint + '/generateThumbnail?width=50&height=50&smartCropping=true';
+
+    request.post(
+        uri,
+        requestOptions
+    ).pipe(fs.createWriteStream(__dirname + '/output.jpeg'));
+}
 
 function analyzeImage(fileName: string, params: AnalyzeParameters) {
     const requestOptions: request.CoreOptions = {
