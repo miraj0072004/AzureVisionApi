@@ -14,8 +14,13 @@ import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 // }));
 
 //analyze clip art vs line art
-analyzeImage('./dog_clipart.jpg', new AnalyzeParameters({
-    visualFeatures: ['ImageType']
+// analyzeImage('./dog_clipart.jpg', new AnalyzeParameters({
+//     visualFeatures: ['ImageType']
+// }));
+
+//analyze adult picture
+analyzeImage('./racy.jpg', new AnalyzeParameters({
+    visualFeatures: ['Adult']
 }));
 
 function analyzeImage(fileName: string, params: AnalyzeParameters) {
