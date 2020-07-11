@@ -9,6 +9,11 @@ import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 //     visualFeatures: ['Tags','Categories']
 // }));
 
+//analyze Description
+// analyzeImage('./famousperson.jpg', new AnalyzeParameters({
+//     visualFeatures: ['Description']
+// }));
+
 //analyze Color
 // analyzeImage('./famousperson.jpg', new AnalyzeParameters({
 //     visualFeatures: ['Color']
@@ -25,7 +30,12 @@ import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 // }));
 
 //generate Thumbnails
-generateThumbnail('./dog.jpg');
+//generateThumbnail('./dog.jpg');
+
+//Recognizing celebrities
+analyzeImage('./famousperson.jpg', new AnalyzeParameters({
+    details: ['Celebrities']
+}));
 
 
 function generateThumbnail(fileName: string) {
@@ -38,6 +48,8 @@ function generateThumbnail(fileName: string) {
     };
 
     let uri = config.vision.endPoint + '/generateThumbnail?width=50&height=50&smartCropping=true';
+
+    
 
     request.post(
         uri,
@@ -55,7 +67,13 @@ function analyzeImage(fileName: string, params: AnalyzeParameters) {
     };
 
     let uri = config.vision.endPoint;
-    uri = uri + '/analyze?' + params.queryString();
+
+    if (params.details.length) {
+        uri = uri + 'analyze?details='+ params.details.join()+'&' + params.queryString();
+    }else{
+        uri = uri + 'analyze?' + params.queryString();
+    }
+    
     
     request.post(
         uri, 

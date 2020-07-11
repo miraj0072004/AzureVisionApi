@@ -17,12 +17,22 @@ export class AnalyzeParameters {
     }
 
     public queryString?() {
-        return querystring.stringify({
-            'language': this.language,
-            'visualFeatures': this.visualFeatures.join()
-        });
+        
+        if (this.visualFeatures.length) {
+            return querystring.stringify({
+                'language': this.language,
+                'visualFeatures': this.visualFeatures.join()
+            });
+        }
+        else
+        {
+            return querystring.stringify({
+                'language': this.language                
+            });
+        }
+        
     }    
 }
 
 export type VisualFeature = 'Categories' | 'Tags' | 'Description' | 'Faces' | 'ImageType' | 'Color' | 'Adult';
-export type Detail = 'celebrities' | 'landmarks';
+export type Detail = 'Celebrities' | 'Landmarks';
