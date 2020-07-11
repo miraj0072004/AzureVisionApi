@@ -33,8 +33,13 @@ import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
 //generateThumbnail('./dog.jpg');
 
 //Recognizing celebrities
-analyzeImage('./famousperson.jpg', new AnalyzeParameters({
-    details: ['Celebrities']
+// analyzeImage('./famousperson.jpg', new AnalyzeParameters({
+//     details: ['Celebrities']
+// }));
+
+//Recognizing landmark
+analyzeImage('./landmark.jpg', new AnalyzeParameters({
+    details: ['Landmarks']
 }));
 
 
