@@ -3,6 +3,7 @@ import { config } from './config';
 import * as fs from 'fs';
 import * as fileHelpers from './fileHelpers';
 import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
+import { setInterval } from 'timers';
 
 //analyze Tags,Categories
 // analyzeImage('./dog.jpg', new AnalyzeParameters({
@@ -89,6 +90,8 @@ function analyzeImage(fileName: string, params: AnalyzeParameters) {
     );    
 }
 
+
+
 //describeImage('./dog.jpg');
 
 function describeImage(fileName: string) {
@@ -108,6 +111,37 @@ function describeImage(fileName: string) {
         requestOptions,
         (err, response, body) => {
             console.log(body);
+        }
+    );
+}
+
+function recognizeText(fileName: string, handwriting: boolean) {
+    const requestOptions: request.CoreOptions = {
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": config.vision.key1
+        },
+        body: fileHelpers.readImage(__dirname + "/" + fileName)        
+    };
+
+    let uri = config.vision.endPoint + '/recognizeText?handwriting=' + handwriting;
+
+    request.post(
+        uri,
+        requestOptions,
+        (err, response, body) => {
+            const requestUrl = response.headers['operation-location'].toString();
+            let requestOptions: request.CoreOptions = {
+                headers: {
+                    "Content-Type": "application/octet-stream",
+                    "Ocp-Apim-Subscription-Key": config.vision.key1
+                }
+            };
+            
+            const timer = setInterval(() => {
+                // somehow here .. check for status
+                // and if status is completed, cancel the timer.
+            }, 1000);
         }
     );
 }
