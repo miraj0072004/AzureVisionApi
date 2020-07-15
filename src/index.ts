@@ -2,7 +2,7 @@ import * as request from 'request';
 import { config } from './config';
 import * as fs from 'fs';
 import * as fileHelpers from './fileHelpers';
-import { AnalyzeParameters, IAnalyzeParameters, RecognitionResults } from "./BusinessObjects";
+import { AnalyzeParameters, IAnalyzeParameters,  Line, Example, ReadResult } from "./BusinessObjects";
 import { setInterval } from 'timers';
 
 //analyze Tags,Categories
@@ -44,7 +44,10 @@ import { setInterval } from 'timers';
 // }));
 
 //Recognizing OCR
-recognizeText('./receipt.jpg',false);
+//recognizeText('./receipt.jpg',false);
+
+//Recognizing handwriting
+recognizeText('./my_handwriting.png',true);
 
 
 function generateThumbnail(fileName: string) {
@@ -128,7 +131,15 @@ function recognizeText(fileName: string, handwriting: boolean) {
     };
 
     // let uri = config.vision.endPoint + '/recognizeText?handwriting=' + handwriting;
-    let uri = config.vision.endPoint + '/ocr';
+    let uri ="";
+    if (handwriting) {
+        uri = config.vision.endPoint + 'read/analyze';
+    }
+    else
+    {
+        uri = config.vision.endPoint + 'ocr';
+    }
+    
 
     request.post(
         uri,
@@ -148,18 +159,23 @@ function recognizeText(fileName: string, handwriting: boolean) {
                     request.get(requestUrl, requestOptions,
                         (err, response, body) => {
                             const results = 
-                                new RecognitionResults(JSON.parse(response.body));
-                                if (results.status === 'Succeeded') {
+                                new Example(JSON.parse(response.body));
+                                if (results.status === 'succeeded') {
                                     // and if status is completed, cancel the timer.
                                     clearInterval(timer);
-                                    results.recognitionResult.lines.forEach((line) => {
-                                        console.log(line);
-                                        line.words.forEach((word) => {
-                                            console.log(word);
+                                    results.analyzeResult.readResults.forEach((readResult:ReadResult) => {
+                                        readResult.lines.forEach((line:Line)=>
+                                        {
+                                            console.log(line);
+                                            line.words.forEach((word) => {
+                                                console.log(word);
+                                        })
+                                        
                                         })
                                     })                                    
                                 }
-                                console.log(results.recognitionResult.lines);
+                                //  console.log(results.recognitionResult.lines);
+                                console.log(results.analyzeResult.readResults[0].lines);
                         });
                 }, 1000);
             } else {

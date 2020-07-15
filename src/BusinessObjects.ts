@@ -39,24 +39,40 @@ export type Detail = 'Celebrities' | 'Landmarks';
 
 
 ///OCR
-export class RecognitionResults {
-    public status: string;
-    public recognitionResult: RecognitionResult
+export interface Word {
+    boundingBox: number[];
+    text: string;
+    confidence: number;
+}
 
-    constructor(recognitionResults: RecognitionResults) {
-        Object.assign(this, recognitionResults);
+export interface Line {
+    boundingBox: number[];
+    text: string;
+    words: Word[];
+}
+
+export interface ReadResult {
+    page: number;
+    angle: number;
+    width: number;
+    height: number;
+    unit: string;
+    lines: Line[];
+}
+
+export interface AnalyzeResult {
+    version: string;
+    readResults: ReadResult[];
+}
+
+export class Example {
+    status: string;
+    createdDateTime: Date;
+    lastUpdatedDateTime: Date;
+    analyzeResult: AnalyzeResult;
+
+    constructor(example: Example) {
+        Object.assign(this, example);
     }
-}
 
-export class Word {
-    public boundingBox: Array<string>;
-    public text: string;
-}
-
-export class Line extends Word {
-    public words: Array<Word>
-}
-
-export class RecognitionResult {
-    public lines: Array<Line>;
 }
