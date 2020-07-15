@@ -39,9 +39,12 @@ import { setInterval } from 'timers';
 // }));
 
 //Recognizing landmark
-analyzeImage('./landmark.jpg', new AnalyzeParameters({
-    details: ['Landmarks']
-}));
+// analyzeImage('./landmark.jpg', new AnalyzeParameters({
+//     details: ['Landmarks']
+// }));
+
+//Recognizing OCR
+recognizeText('./receipt.jpg',false);
 
 
 function generateThumbnail(fileName: string) {
@@ -124,7 +127,8 @@ function recognizeText(fileName: string, handwriting: boolean) {
         body: fileHelpers.readImage(__dirname + "/" + fileName)        
     };
 
-    let uri = config.vision.endPoint + '/recognizeText?handwriting=' + handwriting;
+    // let uri = config.vision.endPoint + '/recognizeText?handwriting=' + handwriting;
+    let uri = config.vision.endPoint + '/ocr';
 
     request.post(
         uri,
