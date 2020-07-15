@@ -2,7 +2,7 @@ import * as request from 'request';
 import { config } from './config';
 import * as fs from 'fs';
 import * as fileHelpers from './fileHelpers';
-import { AnalyzeParameters, IAnalyzeParameters } from "./BusinessObjects";
+import { AnalyzeParameters, IAnalyzeParameters, RecognitionResults } from "./BusinessObjects";
 import { setInterval } from 'timers';
 
 //analyze Tags,Categories
@@ -130,18 +130,37 @@ function recognizeText(fileName: string, handwriting: boolean) {
         uri,
         requestOptions,
         (err, response, body) => {
-            const requestUrl = response.headers['operation-location'].toString();
-            let requestOptions: request.CoreOptions = {
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    "Ocp-Apim-Subscription-Key": config.vision.key1
-                }
-            };
-            
-            const timer = setInterval(() => {
-                // somehow here .. check for status
-                // and if status is completed, cancel the timer.
-            }, 1000);
+            if (response.headers['operation-location']) {
+                const requestUrl = response.headers['operation-location'].toString();
+                let requestOptions: request.CoreOptions = {
+                    headers: {
+                        "Content-Type": "application/octet-stream",
+                        "Ocp-Apim-Subscription-Key": config.vision.key1
+                    }
+                };
+    
+                const timer = setInterval(() => {
+                    // check status
+                    request.get(requestUrl, requestOptions,
+                        (err, response, body) => {
+                            const results = 
+                                new RecognitionResults(JSON.parse(response.body));
+                                if (results.status === 'Succeeded') {
+                                    // and if status is completed, cancel the timer.
+                                    clearInterval(timer);
+                                    results.recognitionResult.lines.forEach((line) => {
+                                        console.log(line);
+                                        line.words.forEach((word) => {
+                                            console.log(word);
+                                        })
+                                    })                                    
+                                }
+                                console.log(results.recognitionResult.lines);
+                        });
+                }, 1000);
+            } else {
+                console.log(body);
+            }
         }
     );
 }
