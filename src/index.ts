@@ -47,7 +47,12 @@ import { setInterval } from 'timers';
 //recognizeText('./receipt.jpg',false);
 
 //Recognizing handwriting
-recognizeText('./my_handwriting.png',true);
+//recognizeText('./my_handwriting.png',true);
+
+//Recognizing faces
+analyzeImage('./miraj1.jpg', new AnalyzeParameters({
+    visualFeatures: ['Faces']
+}));
 
 
 function generateThumbnail(fileName: string) {
