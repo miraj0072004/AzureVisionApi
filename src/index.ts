@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as fileHelpers from './fileHelpers';
 import { AnalyzeParameters, IAnalyzeParameters,  Line, Example, ReadResult } from "./BusinessObjects";
 import { setInterval } from 'timers';
+import * as querystring from 'querystring';
 
 //analyze Tags,Categories
 // analyzeImage('./dog.jpg', new AnalyzeParameters({
@@ -48,11 +49,39 @@ import { setInterval } from 'timers';
 
 //Recognizing handwriting
 //recognizeText('./my_handwriting.png',true);
+//recognizeText('./chess_sheet.jpg',true);
 
 //Recognizing faces
-analyzeImage('./miraj1.jpg', new AnalyzeParameters({
-    visualFeatures: ['Faces']
-}));
+// analyzeImage('./miraj1.jpg', new AnalyzeParameters({
+//     visualFeatures: ['Faces']
+// }));
+
+
+function analyzeFaces(fileName: string) {
+    const requestOptions: request.CoreOptions = {
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": config.face.key1
+        },
+        body: fileHelpers.readImage(__dirname + '/' + fileName)
+    };
+
+    const params = {
+        "returnFaceId": "true",
+        "returnFaceLandmarks": "false",
+        "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+    };
+
+    let uri = config.face.endPoint + '/detect?' + querystring.stringify(params);
+
+    request.post(
+        uri, 
+        requestOptions,
+        (err, response, body) => {
+            console.log(body);
+        }
+    );    
+}
 
 
 function generateThumbnail(fileName: string) {
