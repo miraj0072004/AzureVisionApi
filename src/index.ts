@@ -57,7 +57,7 @@ import * as querystring from 'querystring';
 // }));
 
 //Analyze faces with face api
-analyzeFaces('./couple.jpg');
+analyzeFaces('./disgust.jpg');
 
 function analyzeFaces(fileName: string) {
     const requestOptions: request.CoreOptions = {
@@ -71,7 +71,8 @@ function analyzeFaces(fileName: string) {
     const params = {
         "returnFaceId": "true",
         "returnFaceLandmarks": "false",
-        "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+        // "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+        "returnFaceAttributes": "emotion",
     };
 
     let uri = config.face.endPoint + '/detect?' + querystring.stringify(params);
