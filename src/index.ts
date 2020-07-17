@@ -56,6 +56,8 @@ import * as querystring from 'querystring';
 //     visualFeatures: ['Faces']
 // }));
 
+//Analyze faces with face api
+analyzeFaces('./couple.jpg');
 
 function analyzeFaces(fileName: string) {
     const requestOptions: request.CoreOptions = {
