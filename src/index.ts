@@ -57,7 +57,7 @@ import * as querystring from 'querystring';
 // }));
 
 //Analyze faces with face api
-analyzeFaces('./disgust.jpg');
+//analyzeFaces('./disgust.jpg');
 
 function analyzeFaces(fileName: string) {
     const requestOptions: request.CoreOptions = {
@@ -222,11 +222,14 @@ function recognizeText(fileName: string, handwriting: boolean) {
     );
 }
 
+// create personGroup here
 const friends = fileHelpers.getFriends('Data');
 friends.forEach(friend => {
+    // add person to personGroup here
     console.log(friend);
     const friendPictures = fileHelpers.getFriendPictures(friend);
     friendPictures.forEach(friendPicture => {
+        // add face to personGroup here
         console.log(__dirname + '/Data/' + friend + '/' + friendPicture);
     });
 });
