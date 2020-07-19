@@ -221,3 +221,13 @@ function recognizeText(fileName: string, handwriting: boolean) {
         }
     );
 }
+
+const friends = fileHelpers.getFriends('Data');
+friends.forEach(friend => {
+    console.log(friend);
+    const friendPictures = fileHelpers.getFriendPictures(friend);
+    friendPictures.forEach(friendPicture => {
+        console.log(__dirname + '/Data/' + friend + '/' + friendPicture);
+    });
+});
+
