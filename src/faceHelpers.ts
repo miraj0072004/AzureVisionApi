@@ -25,6 +25,55 @@ export function createPersonGroup(personGroupId: string): Promise<string> {
     return promise;
 }
 
+export function deletePersonGroup(personGroupId: string): Promise<boolean> {
+    const promise = new Promise<boolean>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.headers['Content-Type'] = 'application/json';
+        request.delete(
+            config.face.endPoint + '/persongroups' + personGroupId,
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else { resolve(true); }                                
+            }
+        )
+    });
+    return promise;
+}
+
+export function trainPersonGroup(personGroupId: string): Promise<boolean> {
+    const promise = new Promise<boolean>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.headers['Content-Type'] = 'application/json';
+        request.post(
+            config.face.endPoint + '/persongroups/' + personGroupId + '/train',
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else {
+                    const interval = setInterval(() => {
+                        request.get(
+                            config.face.endPoint + '/persongroups/' + personGroupId + '/training',
+                            requestOptions, 
+                            (err, response, body) => {
+                                if (JSON.parse(body).status) {
+                                    clearInterval(interval);
+                                    resolve(true);
+                                }
+                                else {
+                                    console.log('Not trained:');
+                                    console.log(body);
+                                }
+                            }
+                        )
+                    }, 1000);
+                }
+            }
+        );
+    });
+    return promise;
+}
+
 function getRequestOptions(): request.CoreOptions {
     return {
         headers: {
