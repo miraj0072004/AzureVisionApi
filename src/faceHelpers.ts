@@ -74,6 +74,48 @@ export function trainPersonGroup(personGroupId: string): Promise<boolean> {
     return promise;
 }
 
+export function createPerson(personGroupId: string, personName: string): Promise<string> {
+    const promise = new Promise<string>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.headers['Content-Type'] = 'application/json';
+        requestOptions.body = JSON.stringify({
+            'name': personName
+        });
+
+        request.post(
+            config.face.endPoint + '/persongroups/' + personGroupId + '/persons',
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else { resolve(body); }
+            }
+        )
+    });
+    return promise;
+}
+
+export function addPersonFace(personFile: string, personId: string, personGroupId: string): Promise<string> {
+    personId = (<any>JSON.parse(personId)).personId;
+    const promise = new Promise<string>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.body = fileHelpers.readImage(personFile);
+
+        const uri =
+            config.face.endPoint + '/persongroups/' + personGroupId +
+            '/persons/' + personId + '/persistedFaces';
+
+        request.post(
+            uri,
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else { resolve(body); }
+            }            
+        );
+    });
+    return promise;
+}
+
 function getRequestOptions(): request.CoreOptions {
     return {
         headers: {
