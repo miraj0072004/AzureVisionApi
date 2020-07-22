@@ -116,6 +116,56 @@ export function addPersonFace(personFile: string, personId: string, personGroupI
     return promise;
 }
 
+// returns faceID
+export function detectFace(fileName: string): Promise<string> {
+    const promise = new Promise<string>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.body = fileHelpers.readImage(__dirname + "/" + fileName);
+        const params = {
+            "returnFaceId": "true",
+            "returnFaceLandmarks": "false"
+        };
+
+        const uri = config.face.endPoint + "/detect?" + querystring.stringify(params);
+        request.post(
+            uri,
+            requestOptions,
+            (err, response, body) => {
+                resolve(JSON.parse(body)[0].faceId);
+            }
+        );
+    });
+    return promise;
+}
+
+export function identifyPerson(
+    personGroupId: string,
+    faceId: string
+) {
+    const promise = new Promise<string>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.headers['Content-Type'] = 'application/json';
+        requestOptions.body = JSON.stringify({
+            'personGroupId': personGroupId,
+            "faceIds": [
+                faceId
+            ],
+            "maxNumOfCandidatesReturned": 1,
+            "confidenceThreshold": 0.5
+        });
+
+        request.post(
+            config.face.endPoint + '/identify',
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else { resolve(body); }
+            }            
+        );        
+    });
+    return promise;
+}
+
 function getRequestOptions(): request.CoreOptions {
     return {
         headers: {
