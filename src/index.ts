@@ -5,6 +5,7 @@ import * as fileHelpers from './fileHelpers';
 import { AnalyzeParameters, IAnalyzeParameters,  Line, Example, ReadResult } from "./BusinessObjects";
 import { setInterval } from 'timers';
 import * as querystring from 'querystring';
+import * as faceHelpers from './FaceHelpers';
 
 //analyze Tags,Categories
 // analyzeImage('./dog.jpg', new AnalyzeParameters({
@@ -223,14 +224,29 @@ function recognizeText(fileName: string, handwriting: boolean) {
 }
 
 // create personGroup here
-const friends = fileHelpers.getFriends('Data');
-friends.forEach(friend => {
-    // add person to personGroup here
-    console.log(friend);
-    const friendPictures = fileHelpers.getFriendPictures(friend);
-    friendPictures.forEach(friendPicture => {
-        // add face to personGroup here
-        console.log(__dirname + '/Data/' + friend + '/' + friendPicture);
-    });
+const personGroupId = 'myfriends';
+
+faceHelpers.createPersonGroup(personGroupId).then(result => {
+    if (result === personGroupId) {
+        console.log('person group created');
+        const friends = fileHelpers.getFriends('Data');
+        friends.forEach(friend => {
+            faceHelpers.createPerson(personGroupId, friend).then(result => {
+                const personId = result;
+                console.log(`Created personId: ${result} for person: ${friend}`)
+                const friendPictures = fileHelpers.getFriendPictures(friend);
+                friendPictures.forEach(friendPicture => {
+                    const friendFaceFileName = __dirname + '/Data/' + friend + '/' + friendPicture;
+                    faceHelpers.addPersonFace(
+                        friendFaceFileName,
+                        personId,
+                        personGroupId
+                    ).then(result => {
+                        console.log(`For personId: ${result} person: ${friend} added face: ${friendPicture} got persistedFaceId: ${result}`);
+                    });
+                });
+            });
+        });
+    }
 });
 
