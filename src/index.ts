@@ -252,7 +252,15 @@ const personGroupId = 'myfriends';
 
 //step 2: train personGroup
 
-faceHelpers.trainPersonGroup(personGroupId).then(result => {
-    if (result) console.log('person group trained');
+// faceHelpers.trainPersonGroup(personGroupId).then(result => {
+//     if (result) console.log('person group trained');
+// });
+
+//step 3: Detecting and identifying a person
+
+faceHelpers.detectFace('./input.jpg').then(faceId => {
+    faceHelpers.identifyPerson(personGroupId,faceId).then(result =>{
+        console.log('Input recognized as: '+ result);
+    });    
 });
 
