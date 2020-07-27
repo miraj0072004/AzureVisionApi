@@ -1,0 +1,32 @@
+person group created
+src/index.ts:231
+Created personId: {"personId":"57e31257-837a-4c14-842e-906f5f4fea67"} for person: Adam
+src/index.ts:236
+Created personId: {"personId":"fd5f6a10-253d-4f90-ad82-0456d4df2dc1"} for person: Leon
+src/index.ts:236
+Created personId: {"personId":"41bc1bb8-2c5f-4a69-a9da-0bb8d9759f76"} for person: Laura
+src/index.ts:236
+Created personId: {"personId":"fd54cc91-bccf-4559-abaf-e4f4635e1069"} for person: Jill
+src/index.ts:236
+For personId: {"persistedFaceId":"e3f0db9c-3fad-471b-8268-b23588569228"} person: Laura added face: 1.jpg got persistedFaceId: {"persistedFaceId":"e3f0db9c-3fad-471b-8268-b23588569228"}
+src/index.ts:245
+For personId: {"persistedFaceId":"8c90ff43-71ba-488c-bc29-dfcfc83866eb"} person: Jill added face: 1.jpg got persistedFaceId: {"persistedFaceId":"8c90ff43-71ba-488c-bc29-dfcfc83866eb"}
+src/index.ts:245
+For personId: {"persistedFaceId":"299d1f59-394f-4054-b968-298837f4b433"} person: Leon added face: 2.jpg got persistedFaceId: {"persistedFaceId":"299d1f59-394f-4054-b968-298837f4b433"}
+src/index.ts:245
+For personId: {"persistedFaceId":"19389d33-26d5-4de9-8057-94afa1ca2e2f"} person: Adam added face: 2.jpg got persistedFaceId: {"persistedFaceId":"19389d33-26d5-4de9-8057-94afa1ca2e2f"}
+src/index.ts:245
+For personId: {"persistedFaceId":"2aaf255c-fd69-41ca-9d51-76e98f8ce9fe"} person: Leon added face: 1.jpg got persistedFaceId: {"persistedFaceId":"2aaf255c-fd69-41ca-9d51-76e98f8ce9fe"}
+src/index.ts:245
+For personId: {"persistedFaceId":"93a67886-73de-4184-91e4-d0ca7bb462ec"} person: Adam added face: 1.jpg got persistedFaceId: {"persistedFaceId":"93a67886-73de-4184-91e4-d0ca7bb462ec"}
+src/index.ts:245
+For personId: {"persistedFaceId":"ecf3ffc5-da00-4cab-9eae-c57b55dfc46d"} person: Jill added face: 3.jpg got persistedFaceId: {"persistedFaceId":"ecf3ffc5-da00-4cab-9eae-c57b55dfc46d"}
+src/index.ts:245
+For personId: {"persistedFaceId":"b09cee2e-22b7-4af8-aedd-3b117a912706"} person: Leon added face: 3.jpg got persistedFaceId: {"persistedFaceId":"b09cee2e-22b7-4af8-aedd-3b117a912706"}
+src/index.ts:245
+For personId: {"persistedFaceId":"20f42070-d036-42e6-a030-45d01d238a68"} person: Laura added face: 2.jpg got persistedFaceId: {"persistedFaceId":"20f42070-d036-42e6-a030-45d01d238a68"}
+src/index.ts:245
+For personId: {"persistedFaceId":"a1b522ed-733b-448a-8754-0afeecf9e407"} person: Jill added face: 2.jpg got persistedFaceId: {"persistedFaceId":"a1b522ed-733b-448a-8754-0afeecf9e407"}
+src/index.ts:245
+For personId: {"persistedFaceId":"2c2ba56c-1218-4995-bb9b-5a00aa325fad"} person: Laura added face: 3.jpg got persistedFaceId: {"persistedFaceId":"2c2ba56c-1218-4995-bb9b-5a00aa325fad"}
+src/index.ts:245

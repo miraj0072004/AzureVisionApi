@@ -223,30 +223,36 @@ function recognizeText(fileName: string, handwriting: boolean) {
     );
 }
 
-// create personGroup here
+//step 1: create personGroup here
 const personGroupId = 'myfriends';
 
-faceHelpers.createPersonGroup(personGroupId).then(result => {
-    if (result === personGroupId) {
-        console.log('person group created');
-        const friends = fileHelpers.getFriends('Data');
-        friends.forEach(friend => {
-            faceHelpers.createPerson(personGroupId, friend).then(result => {
-                const personId = result;
-                console.log(`Created personId: ${result} for person: ${friend}`)
-                const friendPictures = fileHelpers.getFriendPictures(friend);
-                friendPictures.forEach(friendPicture => {
-                    const friendFaceFileName = __dirname + '/Data/' + friend + '/' + friendPicture;
-                    faceHelpers.addPersonFace(
-                        friendFaceFileName,
-                        personId,
-                        personGroupId
-                    ).then(result => {
-                        console.log(`For personId: ${result} person: ${friend} added face: ${friendPicture} got persistedFaceId: ${result}`);
-                    });
-                });
-            });
-        });
-    }
+// faceHelpers.createPersonGroup(personGroupId).then(result => {
+//     if (result === personGroupId) {
+//         console.log('person group created');
+//         const friends = fileHelpers.getFriends('Data');
+//         friends.forEach(friend => {
+//             faceHelpers.createPerson(personGroupId, friend).then(result => {
+//                 const personId = result;
+//                 console.log(`Created personId: ${result} for person: ${friend}`)
+//                 const friendPictures = fileHelpers.getFriendPictures(friend);
+//                 friendPictures.forEach(friendPicture => {
+//                     const friendFaceFileName = __dirname + '/Data/' + friend + '/' + friendPicture;
+//                     faceHelpers.addPersonFace(
+//                         friendFaceFileName,
+//                         personId,
+//                         personGroupId
+//                     ).then(result => {
+//                         console.log(`For personId: ${result} person: ${friend} added face: ${friendPicture} got persistedFaceId: ${result}`);
+//                     });
+//                 });
+//             });
+//         });
+//     }
+// });
+
+//step 2: train personGroup
+
+faceHelpers.trainPersonGroup(personGroupId).then(result => {
+    if (result) console.log('person group trained');
 });
 
